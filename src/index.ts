@@ -1,10 +1,13 @@
 import express from 'express'
 import { config } from 'dotenv'
-import { GetCompaniesController } from './controllers/company/getCompany';
-import { MongoGetCompaniesRepository } from './repositories/company/mongoGetCompany';
+import { GetCompaniesController, GetCompanyController, GetUsersCompanyController } from './controllers/company/getControllers';
+import { MongoGetCompaniesRepository, MongoGetCompanyRepository, MongoGetUsersCompanyRepository } from './repositories/company/mongoGetCompany';
+import { MongoPostCompanyRepository, MongoPostUserCompanyRepository } from './repositories/company/mongoPostCompany';
 import { HttpResponse } from './controllers/protocols';
-import { Company } from './models/company';
+import { ICompany } from './models/company';
+import { IUser } from './models/user';
 import { MongoClient } from './database/mongo';
+import { PostCompanyController, PostUserCompanyController } from './controllers/company/postControllers';
 
 
 const main = async () => {
@@ -12,6 +15,8 @@ const main = async () => {
     config();
 
     const app = express();
+
+    app.use(express.json());
 
     await MongoClient.connect();
 
@@ -32,7 +37,52 @@ const main = async () => {
         const mongoGetCompaniesRepository: MongoGetCompaniesRepository = new MongoGetCompaniesRepository();
         const getCompaniesController: GetCompaniesController = new GetCompaniesController(mongoGetCompaniesRepository);
 
-        const { statusCode, body }: HttpResponse<Company[]> = await getCompaniesController.handle();
+        const { statusCode, body }: HttpResponse<ICompany[]> = await getCompaniesController.handle();
+
+        return response.status(statusCode).send(body);
+    });
+
+    app.post('/companies', async (request, response) => {
+
+        const mongoPostCompanyRepository: MongoPostCompanyRepository = new MongoPostCompanyRepository();
+        const postCompanyController: PostCompanyController = new PostCompanyController(mongoPostCompanyRepository);
+
+        const { statusCode, body }: HttpResponse<ICompany> = await postCompanyController.handle({ body: request.body });
+
+        return response.status(statusCode).send(body);
+    });
+
+    app.get('/company/:id', async (request, response) => {
+
+        const id = request.params.id;
+
+        const mongoGetCompanyRepository: MongoGetCompanyRepository = new MongoGetCompanyRepository();
+        const getCompanyController: GetCompanyController = new GetCompanyController(mongoGetCompanyRepository);
+
+        const { statusCode, body }: HttpResponse<ICompany> = await getCompanyController.handle(id);
+
+        return response.status(statusCode).send(body);
+    });
+
+    app.get('/users/:id', async (request, response) => {
+        const idCompany = request.params.id;
+
+        const mongoGetUsersCompanyRepository: MongoGetUsersCompanyRepository = new MongoGetUsersCompanyRepository();
+        const getUsersCompanyController: GetUsersCompanyController = new GetUsersCompanyController(mongoGetUsersCompanyRepository);
+
+        const { statusCode, body }: HttpResponse<IUser[]> = await getUsersCompanyController.handle(idCompany);
+
+
+        return response.status(statusCode).send(body);
+    });
+
+    app.post('/user/:id', async (request, response) => {
+        const idCompany = request.params.id;
+
+        const mongoPostUserCompanyRepository: MongoPostUserCompanyRepository = new MongoPostUserCompanyRepository();
+        const postCompaniesController: PostUserCompanyController = new PostUserCompanyController(mongoPostUserCompanyRepository);
+
+        const { statusCode, body }: HttpResponse<ICompany> = await postCompaniesController.handle(idCompany, { body: request.body });
 
         return response.status(statusCode).send(body);
     });
