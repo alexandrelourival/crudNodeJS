@@ -4,7 +4,9 @@
   "description": "A CRUD where the user can register companies, units, assets and users.",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon --watch 'src/' --exec ts-node-dev --respawn ./src/index.ts -e ts"
+    "start:dev": "nodemon --watch 'src/' --exec ts-node-dev --respawn ./src/index.ts -e ts",
+    "start": "node build/index.js",
+    "build": "tsc --project tsconfig.json"
   },
   "repository": {
     "type": "git",
