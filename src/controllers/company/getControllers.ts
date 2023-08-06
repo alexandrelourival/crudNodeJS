@@ -3,6 +3,7 @@ import { ICompanyRequest, ICompanyResponse } from '../../models/company';
 import { IUser } from '../../models/user';
 import { IUnitResponse } from '../../models/unit';
 import { mapAssets } from '../../utils/functions';
+import { HttpRequest } from '../protocols';
 
 export class GetCompaniesController implements IGetCompaniesController {
 
@@ -45,9 +46,9 @@ export class GetCompanyController implements IGetCompanyController {
 
     constructor(private readonly getCompanyRepository: IGetCompanyRepository) { }
 
-    async handle(id: string) {
+    async handle(httpRequest: HttpRequest<null>) {
         try {
-            const company: ICompanyRequest | null = await this.getCompanyRepository.getCompany(id);
+            const company: ICompanyRequest | null = await this.getCompanyRepository.getCompany(httpRequest.params.id);
 
             if (company != null) {
 
@@ -77,9 +78,9 @@ export class GetUsersCompanyController implements IGetUsersCompanyController {
 
     constructor(private readonly getUsersCompanyRepository: IGetUsersCompanyRepository) { }
 
-    async handle(id: string) {
+    async handle(httpRequest: HttpRequest<null>) {
         try {
-            const users: IUser[] = await this.getUsersCompanyRepository.getUsers(id);
+            const users: IUser[] = await this.getUsersCompanyRepository.getUsers(httpRequest.params.id);
 
             if (users.length > 0) {
                 return {

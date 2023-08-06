@@ -1,6 +1,6 @@
 import { IUser } from '@/models/user';
 import { ICompanyRequest, ICompanyResponse } from '../../models/company';
-import { HttpResponse } from '../protocols';
+import { HttpRequest, HttpResponse } from '../protocols';
 
 export interface IGetCompaniesController {
     handle(): Promise<HttpResponse<ICompanyResponse[]>>;
@@ -11,7 +11,7 @@ export interface IGetCompaniesRepository {
 }
 
 export interface IGetCompanyController {
-    handle(id: string): Promise<HttpResponse<ICompanyResponse>>;
+    handle(httpRequest: HttpRequest<null>): Promise<HttpResponse<ICompanyResponse>>;
 }
 
 export interface IGetCompanyRepository {
@@ -19,7 +19,7 @@ export interface IGetCompanyRepository {
 }
 
 export interface IGetUsersCompanyController {
-    handle(id: string): Promise<HttpResponse<IUser[]>>;
+    handle(httpRequest: HttpRequest<null>): Promise<HttpResponse<IUser[]>>;
 }
 
 export interface IGetUsersCompanyRepository {

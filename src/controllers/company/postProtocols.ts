@@ -11,7 +11,7 @@ export interface IPostCompanyRepository {
 }
 
 export interface IPostUserCompanyController {
-    handle(id: string, httpRequest: HttpRequest<IUser>): Promise<HttpResponse<null>>;
+    handle(httpRequest: HttpRequest<IUser>): Promise<HttpResponse<null>>;
 }
 
 export interface IPostUserCompanyRepository {

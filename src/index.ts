@@ -51,7 +51,7 @@ const main = async () => {
         const mongoGetCompanyRepository: MongoGetCompanyRepository = new MongoGetCompanyRepository();
         const getCompanyController: GetCompanyController = new GetCompanyController(mongoGetCompanyRepository);
 
-        const { statusCode, body }: HttpResponse<ICompanyResponse> = await getCompanyController.handle(id);
+        const { statusCode, body }: HttpResponse<ICompanyResponse> = await getCompanyController.handle({ params: { id } });
 
         return response.status(statusCode).send(body);
     });
@@ -76,24 +76,24 @@ const main = async () => {
     });
 
     app.get('/users/:id', async (request, response) => {
-        const idCompany = request.params.id;
+        const id = request.params.id;
 
         const mongoGetUsersCompanyRepository: MongoGetUsersCompanyRepository = new MongoGetUsersCompanyRepository();
         const getUsersCompanyController: GetUsersCompanyController = new GetUsersCompanyController(mongoGetUsersCompanyRepository);
 
-        const { statusCode, body }: HttpResponse<IUser[]> = await getUsersCompanyController.handle(idCompany);
+        const { statusCode, body }: HttpResponse<IUser[]> = await getUsersCompanyController.handle({ params: { id } });
 
 
         return response.status(statusCode).send(body);
     });
 
     app.post('/user/:id', async (request, response) => {
-        const idCompany = request.params.id;
+        const id = request.params.id;
 
         const mongoPostUserCompanyRepository: MongoPostUserCompanyRepository = new MongoPostUserCompanyRepository();
         const postCompaniesController: PostUserCompanyController = new PostUserCompanyController(mongoPostUserCompanyRepository);
 
-        const { statusCode, body }: HttpResponse<ICompanyResponse> = await postCompaniesController.handle(idCompany, { body: request.body });
+        const { statusCode, body }: HttpResponse<ICompanyResponse> = await postCompaniesController.handle({ params: { id }, body: request.body });
 
         return response.status(statusCode).send(body);
     });

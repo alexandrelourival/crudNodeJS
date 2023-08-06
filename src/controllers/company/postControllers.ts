@@ -32,9 +32,9 @@ export class PostUserCompanyController implements IPostUserCompanyController {
 
     constructor(private readonly postUserCompanyRepository: IPostUserCompanyRepository) { }
 
-    async handle(id: string, httpRequest: HttpRequest<IUser>) {
+    async handle(httpRequest: HttpRequest<IUser>) {
         try {
-            await this.postUserCompanyRepository.postUser(id, httpRequest.body!);
+            await this.postUserCompanyRepository.postUser(httpRequest.params.id, httpRequest.body!);
 
             return {
                 statusCode: 201
