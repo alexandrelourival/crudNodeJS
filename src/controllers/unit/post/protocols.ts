@@ -1,4 +1,4 @@
-import { IAssetRequest } from '@/models/asset';
+import { IAssetRequest } from '../../../models/asset';
 import { IUnitRequest } from '../../../models/unit';
 import { ICompanyRequest } from '../../../models/company';
 

@@ -1,7 +1,7 @@
-import { IUnitRequest } from "../../models/unit";
-import { IGetUnitRepository, IGetUnitsRepository } from "../../controllers/unit/get/protocols";
+import { IUnitRequest } from '../../models/unit';
+import { IGetUnitRepository, IGetUnitsRepository } from '../../controllers/unit/get/protocols';
 import { MongoClient } from '../../database/mongo';
-import { ObjectId } from "mongodb";
+import { ObjectId } from 'mongodb';
 
 export class MongoGetUnitsRepository implements IGetUnitsRepository {
     async getUnits(): Promise<IUnitRequest[]> {

@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb';
 import { IDeleteUnitRepository } from '../../controllers/unit/delete/protocols';
 import { MongoClient } from '../../database/mongo';
 import { IUnitRequest } from '../../models/unit';
-import { ICompanyRequest } from '@/models/company';
+import { ICompanyRequest } from '../../models/company';
 
 
 export class MongoDeleteUnitRepository implements IDeleteUnitRepository {

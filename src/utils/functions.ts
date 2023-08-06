@@ -1,5 +1,5 @@
-import { IAssetRequest, IAssetResponse } from "@/models/asset";
-import { statusEnum } from "./enum";
+import { IAssetRequest, IAssetResponse } from '@/models/asset';
+import { statusEnum } from './enum';
 
 export const mapAssets = (assets?: IAssetRequest[]): IAssetResponse[] | undefined => {
     if (!assets) {
