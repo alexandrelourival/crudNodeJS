@@ -64,7 +64,7 @@ export class GetUsersCompanyController implements IController {
                 return responseOk<IUser[]>(users);
             }
 
-            return responseNotFound("Info: This Company don't have users.");
+            return responseNotFound("This Company don't have users.");
         } catch (error) {
             return responseError('Something went wrong when getting users of company.')
         }
