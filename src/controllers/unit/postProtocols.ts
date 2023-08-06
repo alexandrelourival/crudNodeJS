@@ -16,6 +16,6 @@ export interface IPostAssetUnitController {
 }
 
 export interface IPostAssetUnitRepository {
-    postAsset(company: ICompanyRequest, unit: IUnitRequest, asset: IAssetRequest): Promise<void>;
+    postAsset(unit: IUnitRequest, asset: IAssetRequest): Promise<void>;
 }
 

@@ -3,7 +3,7 @@ import { IUnitRequest, IUnitResponse } from '../../models/unit';
 import { HttpRequest, HttpResponse } from '../protocols';
 
 export interface IGetUnitsController {
-    handle(httpRequest: HttpRequest<null>): Promise<HttpResponse<IUnitResponse[]>>;
+    handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IUnitResponse[]>>;
 }
 
 export interface IGetUnitsRepository {
@@ -11,7 +11,7 @@ export interface IGetUnitsRepository {
 }
 
 export interface IGetUnitController {
-    handle(httpRequest: HttpRequest<null>): Promise<HttpResponse<IUnitResponse>>;
+    handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IUnitResponse>>;
 }
 
 export interface IGetUnitRepository {
@@ -19,6 +19,6 @@ export interface IGetUnitRepository {
 }
 
 export interface IGetAssetsUnitController {
-    handle(httpRequest: HttpRequest<null>): Promise<HttpResponse<IAssetResponse[]>>;
+    handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IAssetResponse[]>>;
 }
 

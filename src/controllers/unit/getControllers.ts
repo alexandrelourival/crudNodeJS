@@ -9,7 +9,7 @@ export class GetUnitsController implements IGetUnitsController {
 
     constructor(private readonly getUnitsRepository: IGetUnitsRepository) { }
 
-    async handle(httpRequest: HttpRequest<null>) {
+    async handle(httpRequest: HttpRequest<void>) {
         try {
             const units: IUnitRequest[] = await this.getUnitsRepository.getUnits();
 
@@ -43,12 +43,12 @@ export class GetUnitController implements IGetUnitController {
 
     constructor(private readonly getUnitRepository: IGetUnitRepository) { }
 
-    async handle(httpRequest: HttpRequest<null>) {
+    async handle(httpRequest: HttpRequest<void>) {
         try {
             const unit: IUnitRequest | null = await this.getUnitRepository.getUnit(httpRequest.params.id);
 
 
-            if (unit != null) {
+            if (unit) {
                 const unitsResponse: IUnitResponse = { ...unit, assets: mapAssets(unit.assets!) };
 
                 return {
@@ -75,7 +75,7 @@ export class GetAssetsUnitController implements IGetAssetsUnitController {
 
     constructor(private readonly getUnitRepository: IGetUnitRepository) { }
 
-    async handle(httpRequest: HttpRequest<null>) {
+    async handle(httpRequest: HttpRequest<void>) {
         try {
 
             const unit: IUnitRequest | null = await this.getUnitRepository.getUnit(httpRequest.params.id);

@@ -46,7 +46,7 @@ export class GetCompanyController implements IGetCompanyController {
 
     constructor(private readonly getCompanyRepository: IGetCompanyRepository) { }
 
-    async handle(httpRequest: HttpRequest<null>) {
+    async handle(httpRequest: HttpRequest<void>) {
         try {
             const company: ICompanyRequest | null = await this.getCompanyRepository.getCompany(httpRequest.params.id);
 
@@ -78,7 +78,7 @@ export class GetUsersCompanyController implements IGetUsersCompanyController {
 
     constructor(private readonly getUsersCompanyRepository: IGetUsersCompanyRepository) { }
 
-    async handle(httpRequest: HttpRequest<null>) {
+    async handle(httpRequest: HttpRequest<void>) {
         try {
             const users: IUser[] = await this.getUsersCompanyRepository.getUsers(httpRequest.params.id);
 

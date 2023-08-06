@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { IPostAssetUnitRepository, IPostUnitRepository } from "../../controllers/unit/postProtocols";
 import { MongoClient } from "../../database/mongo";
 import { IAssetRequest } from "../../models/asset";
@@ -26,7 +27,7 @@ export class MongoPostUnitRepository implements IPostUnitRepository {
 }
 
 export class MongoPostAssetUnitRepository implements IPostAssetUnitRepository {
-    async postAsset(company: ICompanyRequest, unit: IUnitRequest, asset: IAssetRequest): Promise<void> {
+    async postAsset(unit: IUnitRequest, asset: IAssetRequest): Promise<void> {
 
         if (unit.assets) {
             unit.assets.push(asset);
@@ -34,13 +35,15 @@ export class MongoPostAssetUnitRepository implements IPostAssetUnitRepository {
             unit.assets = [asset];
         }
 
-        company.units!.forEach((unitForEach, index) => {
+        const company = await MongoClient.db.collection<ICompanyRequest>('companies').findOne({ _id: new ObjectId(unit.idCompany) });
+
+        company!.units!.forEach((unitForEach, index) => {
             if (unitForEach.idCompany == unit.idCompany && unitForEach.name == unit.name) {
-                company.units![index] = unit;
+                company!.units![index] = unit;
             }
         });
 
-        await MongoClient.db.collection<ICompanyRequest>('companies').updateOne({ _id: company._id }, { $set: company });
+        await MongoClient.db.collection<ICompanyRequest>('companies').updateOne({ _id: company!._id }, { $set: company! });
 
         await MongoClient.db.collection<IUnitRequest>('units').updateOne({ _id: unit._id }, { $set: unit });
     }

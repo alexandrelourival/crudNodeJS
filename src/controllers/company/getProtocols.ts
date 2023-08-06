@@ -11,7 +11,7 @@ export interface IGetCompaniesRepository {
 }
 
 export interface IGetCompanyController {
-    handle(httpRequest: HttpRequest<null>): Promise<HttpResponse<ICompanyResponse>>;
+    handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<ICompanyResponse>>;
 }
 
 export interface IGetCompanyRepository {
@@ -19,7 +19,7 @@ export interface IGetCompanyRepository {
 }
 
 export interface IGetUsersCompanyController {
-    handle(httpRequest: HttpRequest<null>): Promise<HttpResponse<IUser[]>>;
+    handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IUser[]>>;
 }
 
 export interface IGetUsersCompanyRepository {

@@ -35,7 +35,7 @@ export class PostUnitController implements IPostUnitController {
 
 export class PostAssetUnitController implements IPostAssetUnitController {
 
-    constructor(private readonly getCompanyRepository: IGetCompanyRepository, private readonly getUnitRepository: IGetUnitRepository, private readonly postAssetUnitRepository: IPostAssetUnitRepository) { }
+    constructor(private readonly getUnitRepository: IGetUnitRepository, private readonly postAssetUnitRepository: IPostAssetUnitRepository) { }
 
     async handle(httpRequest: HttpRequest<IAssetRequest>) {
         try {
@@ -46,9 +46,7 @@ export class PostAssetUnitController implements IPostAssetUnitController {
                 throw new Error('Unit id not exist.');
             }
 
-            const company = await this.getCompanyRepository.getCompany(unit.idCompany);
-
-            await this.postAssetUnitRepository.postAsset(company!, unit, httpRequest.body!);
+            await this.postAssetUnitRepository.postAsset(unit, httpRequest.body!);
 
             return {
                 statusCode: 201
