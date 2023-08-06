@@ -1,13 +1,13 @@
 import { IUnitResponse } from '../../models/unit';
 import { mapAssets } from '../../utils/functions';
-import { IUpdateUnitController, IUpdateUnitRepository, UpdateUnitParams } from './updateProtocols';
-import { HttpRequest } from '../protocols';
+import { IUpdateUnitRepository, UpdateUnitParams } from './updateProtocols';
+import { HttpRequest, HttpResponse, IController } from '../protocols';
 
-export class UpdateUnitController implements IUpdateUnitController {
+export class UpdateUnitController implements IController {
 
     constructor(private readonly updateUnitRepository: IUpdateUnitRepository) { }
 
-    async handle(httpRequest: HttpRequest<UpdateUnitParams>) {
+    async handle(httpRequest: HttpRequest<UpdateUnitParams>): Promise<HttpResponse<IUnitResponse>> {
 
         try {
             if (!httpRequest.params.id || !httpRequest.body) {
@@ -36,20 +36,12 @@ export class UpdateUnitController implements IUpdateUnitController {
                 }
             }
 
-
             const unit = await this.updateUnitRepository.updateUnit(httpRequest.params.id, httpRequest.body);
 
-            if (unit) {
-                const unitsResponse: IUnitResponse = { ...unit, assets: mapAssets(unit.assets!) };
-                return {
-                    statusCode: 200,
-                    body: unitsResponse
-                }
-            };
-
+            const unitsResponse: IUnitResponse = { ...unit, assets: mapAssets(unit.assets!) };
             return {
-                statusCode: 404,
-                body: 'Info: Unit not found.'
+                statusCode: 200,
+                body: unitsResponse
             }
         } catch (error) {
             return {

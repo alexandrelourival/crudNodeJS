@@ -1,11 +1,11 @@
-import { IDeleteCompanyController, IDeleteCompanyRepository } from './deleteProtocols';
-import { HttpRequest } from '../protocols';
+import { IDeleteCompanyRepository } from './deleteProtocols';
+import { HttpRequest, HttpResponse, IController } from '../protocols';
 
-export class DeleteCompanyController implements IDeleteCompanyController {
+export class DeleteCompanyController implements IController {
 
     constructor(private readonly updateCompanyRepository: IDeleteCompanyRepository) { }
 
-    async handle(httpRequest: HttpRequest<void>) {
+    async handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<string>> {
 
         try {
             if (!httpRequest.params.id) {

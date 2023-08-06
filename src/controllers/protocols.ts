@@ -4,7 +4,12 @@ export interface HttpRequest<T> {
     headers?: any;
     body?: T;
 }
+
 export interface HttpResponse<T> {
     statusCode: number;
     body?: T | string;
+}
+
+export interface IController {
+    handle(httpRequest?: HttpRequest<unknown>): Promise<HttpResponse<unknown>>;
 }

@@ -5,7 +5,7 @@ import { ICompanyRequest } from '../../models/company';
 
 
 export class MongoUpdateCompanyRepository implements IUpdateCompanyRepository {
-    async updateCompany(id: string, params: UpdateCompanyParams): Promise<ICompanyRequest | null> {
+    async updateCompany(id: string, params: UpdateCompanyParams): Promise<ICompanyRequest> {
 
         await MongoClient.db.collection<ICompanyRequest>('companies').updateOne({ _id: new ObjectId(id) }, { $set: { ...params } });
 

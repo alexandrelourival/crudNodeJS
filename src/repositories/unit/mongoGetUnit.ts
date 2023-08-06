@@ -11,8 +11,13 @@ export class MongoGetUnitsRepository implements IGetUnitsRepository {
 }
 
 export class MongoGetUnitRepository implements IGetUnitRepository {
-    async getUnit(id: string): Promise<IUnitRequest | null> {
+    async getUnit(id: string): Promise<IUnitRequest> {
         const unit = await MongoClient.db.collection<IUnitRequest>('units').findOne({ _id: new ObjectId(id) });
+
+        if (!unit) {
+            throw new Error('Unit id not exist.');
+        }
+
         return unit;
     }
 }

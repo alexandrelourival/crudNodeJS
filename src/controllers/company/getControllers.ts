@@ -1,15 +1,15 @@
-import { IGetCompaniesController, IGetCompaniesRepository, IGetUsersCompanyController, IGetUsersCompanyRepository, IGetCompanyController, IGetCompanyRepository } from './getProtocols'
+import { IGetCompaniesRepository, IGetUsersCompanyRepository, IGetCompanyRepository } from './getProtocols'
 import { ICompanyRequest, ICompanyResponse } from '../../models/company';
 import { IUser } from '../../models/user';
 import { IUnitResponse } from '../../models/unit';
 import { mapAssets } from '../../utils/functions';
-import { HttpRequest } from '../protocols';
+import { HttpRequest, HttpResponse, IController } from '../protocols';
 
-export class GetCompaniesController implements IGetCompaniesController {
+export class GetCompaniesController implements IController {
 
     constructor(private readonly getCompaniesRepository: IGetCompaniesRepository) { }
 
-    async handle() {
+    async handle(): Promise<HttpResponse<ICompanyResponse[]>> {
         try {
             const companies: ICompanyRequest[] = await this.getCompaniesRepository.getCompanies();
 
@@ -42,27 +42,20 @@ export class GetCompaniesController implements IGetCompaniesController {
 
 }
 
-export class GetCompanyController implements IGetCompanyController {
+export class GetCompanyController implements IController {
 
     constructor(private readonly getCompanyRepository: IGetCompanyRepository) { }
 
-    async handle(httpRequest: HttpRequest<void>) {
+    async handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<ICompanyResponse>> {
         try {
-            const company: ICompanyRequest | null = await this.getCompanyRepository.getCompany(httpRequest.params.id);
+            const company: ICompanyRequest = await this.getCompanyRepository.getCompany(httpRequest.params.id);
 
-            if (company != null) {
-
-                const companyResult: ICompanyResponse = { ...company, units: (company.units ? company.units.map(({ assets, ...restAssets }) => ({ ...restAssets, assets: mapAssets(assets!) })) : undefined) };
-
-                return {
-                    statusCode: 200,
-                    body: companyResult
-                }
-            }
+            const companyResult: ICompanyResponse = { ...company, units: (company.units ? company.units.map(({ assets, ...restAssets }) => ({ ...restAssets, assets: mapAssets(assets!) })) : undefined) };
 
             return {
-                statusCode: 404,
-                body: 'Info: Company not found.'
+                statusCode: 200,
+                body: companyResult
+
             }
         } catch (error) {
             return {
@@ -74,11 +67,11 @@ export class GetCompanyController implements IGetCompanyController {
 
 }
 
-export class GetUsersCompanyController implements IGetUsersCompanyController {
+export class GetUsersCompanyController implements IController {
 
     constructor(private readonly getUsersCompanyRepository: IGetUsersCompanyRepository) { }
 
-    async handle(httpRequest: HttpRequest<void>) {
+    async handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IUser[]>> {
         try {
             const users: IUser[] = await this.getUsersCompanyRepository.getUsers(httpRequest.params.id);
 

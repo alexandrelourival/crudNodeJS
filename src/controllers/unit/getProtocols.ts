@@ -1,24 +1,9 @@
-import { IAssetResponse } from '../../models/asset';
-import { IUnitRequest, IUnitResponse } from '../../models/unit';
-import { HttpRequest, HttpResponse } from '../protocols';
-
-export interface IGetUnitsController {
-    handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IUnitResponse[]>>;
-}
+import { IUnitRequest } from '../../models/unit';
 
 export interface IGetUnitsRepository {
     getUnits(): Promise<IUnitRequest[]>;
 }
 
-export interface IGetUnitController {
-    handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IUnitResponse>>;
-}
-
 export interface IGetUnitRepository {
-    getUnit(id: string): Promise<IUnitRequest | null>;
+    getUnit(id: string): Promise<IUnitRequest>;
 }
-
-export interface IGetAssetsUnitController {
-    handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IAssetResponse[]>>;
-}
-

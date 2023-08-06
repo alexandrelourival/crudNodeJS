@@ -6,7 +6,7 @@ import { IUser } from '../../models/user';
 
 
 export class MongoPostCompanyRepository implements IPostCompanyRepository {
-    async postCompany(company: ICompanyRequest): Promise<ICompanyRequest> {
+    async postCompany(company: ICompanyRequest): Promise<void> {
         const { insertedId } = await MongoClient.db.collection<ICompanyRequest>('companies').insertOne(company);
 
         const companyResult = await MongoClient.db.collection<ICompanyRequest>('companies').findOne({ _id: insertedId });
@@ -14,8 +14,6 @@ export class MongoPostCompanyRepository implements IPostCompanyRepository {
         if (!companyResult) {
             throw new Error('Company not created.');
         }
-
-        return companyResult;
     }
 }
 

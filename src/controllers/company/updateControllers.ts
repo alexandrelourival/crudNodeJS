@@ -1,13 +1,13 @@
 import { ICompanyResponse } from '../../models/company';
 import { mapAssets } from '../../utils/functions';
-import { IUpdateCompanyController, IUpdateCompanyRepository, UpdateCompanyParams } from './updateProtocols';
-import { HttpRequest } from '../protocols';
+import { IUpdateCompanyRepository, UpdateCompanyParams } from './updateProtocols';
+import { HttpRequest, HttpResponse, IController } from '../protocols';
 
-export class UpdateCompanyController implements IUpdateCompanyController {
+export class UpdateCompanyController implements IController {
 
     constructor(private readonly updateCompanyRepository: IUpdateCompanyRepository) { }
 
-    async handle(httpRequest: HttpRequest<UpdateCompanyParams>) {
+    async handle(httpRequest: HttpRequest<UpdateCompanyParams>): Promise<HttpResponse<ICompanyResponse>> {
 
         try {
             if (!httpRequest.params.id || !httpRequest.body) {
@@ -37,19 +37,12 @@ export class UpdateCompanyController implements IUpdateCompanyController {
             }
             const company = await this.updateCompanyRepository.updateCompany(httpRequest.params.id, httpRequest.body);
 
-            if (company) {
-
-                const companyResult: ICompanyResponse = { ...company, units: (company.units ? company.units.map(({ assets, ...restAssets }) => ({ ...restAssets, assets: mapAssets(assets!) })) : undefined) };
-
-                return {
-                    statusCode: 200,
-                    body: companyResult
-                }
-            }
+            const companyResult: ICompanyResponse = { ...company, units: (company.units ? company.units.map(({ assets, ...restAssets }) => ({ ...restAssets, assets: mapAssets(assets!) })) : undefined) };
 
             return {
-                statusCode: 404,
-                body: 'Info: Company not found.'
+                statusCode: 200,
+                body: companyResult
+
             }
         } catch (error) {
             return {

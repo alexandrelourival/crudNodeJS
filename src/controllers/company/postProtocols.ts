@@ -1,17 +1,8 @@
 import { IUser } from '@/models/user';
-import { ICompanyRequest, ICompanyResponse } from '../../models/company';
-import { HttpRequest, HttpResponse } from '../protocols';
-
-export interface IPostCompanyController {
-    handle(httpRequest: HttpRequest<ICompanyRequest>): Promise<HttpResponse<ICompanyResponse>>;
-}
+import { ICompanyRequest } from '../../models/company';
 
 export interface IPostCompanyRepository {
-    postCompany(body: ICompanyRequest): Promise<ICompanyRequest>;
-}
-
-export interface IPostUserCompanyController {
-    handle(httpRequest: HttpRequest<IUser>): Promise<HttpResponse<null>>;
+    postCompany(body: ICompanyRequest): Promise<void>;
 }
 
 export interface IPostUserCompanyRepository {

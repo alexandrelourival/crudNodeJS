@@ -1,15 +1,15 @@
-import { IGetUnitsController, IGetUnitsRepository, IGetAssetsUnitController, IGetUnitController, IGetUnitRepository } from './getProtocols'
+import { IGetUnitsRepository, IGetUnitRepository } from './getProtocols'
 import { IUnitRequest, IUnitResponse } from '../../models/unit';
 import { IAssetResponse } from '../../models/asset';
 import { statusEnum } from '../../utils/enum';
-import { mapAssets } from '../..//utils/functions';
-import { HttpRequest } from '../protocols';
+import { mapAssets } from '../../utils/functions';
+import { HttpRequest, HttpResponse, IController } from '../protocols';
 
-export class GetUnitsController implements IGetUnitsController {
+export class GetUnitsController implements IController {
 
     constructor(private readonly getUnitsRepository: IGetUnitsRepository) { }
 
-    async handle(httpRequest: HttpRequest<void>) {
+    async handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IUnitResponse[]>> {
         try {
             const units: IUnitRequest[] = await this.getUnitsRepository.getUnits();
 
@@ -39,11 +39,11 @@ export class GetUnitsController implements IGetUnitsController {
 
 }
 
-export class GetUnitController implements IGetUnitController {
+export class GetUnitController implements IController {
 
     constructor(private readonly getUnitRepository: IGetUnitRepository) { }
 
-    async handle(httpRequest: HttpRequest<void>) {
+    async handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IUnitResponse>> {
         try {
             const unit: IUnitRequest | null = await this.getUnitRepository.getUnit(httpRequest.params.id);
 
@@ -71,11 +71,11 @@ export class GetUnitController implements IGetUnitController {
 
 }
 
-export class GetAssetsUnitController implements IGetAssetsUnitController {
+export class GetAssetsUnitController implements IController {
 
     constructor(private readonly getUnitRepository: IGetUnitRepository) { }
 
-    async handle(httpRequest: HttpRequest<void>) {
+    async handle(httpRequest: HttpRequest<void>): Promise<HttpResponse<IAssetResponse[]>> {
         try {
 
             const unit: IUnitRequest | null = await this.getUnitRepository.getUnit(httpRequest.params.id);

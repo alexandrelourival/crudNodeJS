@@ -13,8 +13,13 @@ export class MongoGetCompaniesRepository implements IGetCompaniesRepository {
 }
 
 export class MongoGetCompanyRepository implements IGetCompanyRepository {
-    async getCompany(id: string): Promise<ICompanyRequest | null> {
+    async getCompany(id: string): Promise<ICompanyRequest> {
         const company = await MongoClient.db.collection<ICompanyRequest>('companies').findOne({ _id: new ObjectId(id) });
+
+        if (!company) {
+            throw new Error('Company id not exist');
+        }
+
         return company;
     }
 }

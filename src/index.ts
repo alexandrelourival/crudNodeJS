@@ -21,7 +21,6 @@ import { MongoPostCompanyRepository, MongoPostUserCompanyRepository } from './re
 import { MongoGetUnitsRepository, MongoGetUnitRepository } from './repositories/unit/mongoGetUnit';
 import { MongoPostUnitRepository, MongoPostAssetUnitRepository } from './repositories/unit/mongoPostUnit';
 import { MongoUpdateCompanyRepository } from './repositories/company/mongoUpdateCompany';
-import { ObjectId } from 'mongodb';
 import { MongoDeleteCompanyRepository } from './repositories/company/mongoDeleteCompany';
 import { DeleteCompanyController } from './controllers/company/deleteController';
 import { MongoDeleteUnitRepository } from './repositories/unit/mongoDeleteUnit';
@@ -79,7 +78,7 @@ const main = async () => {
         const mongoPostCompanyRepository: MongoPostCompanyRepository = new MongoPostCompanyRepository();
         const postCompanyController: PostCompanyController = new PostCompanyController(mongoPostCompanyRepository);
 
-        const { statusCode }: HttpResponse<ICompanyResponse> = await postCompanyController.handle({ body: request.body });
+        const { statusCode }: HttpResponse<void> = await postCompanyController.handle({ body: request.body });
 
         return response.status(statusCode).send();
     });
@@ -101,7 +100,7 @@ const main = async () => {
         const mongoDeleteCompanyRepository: MongoDeleteCompanyRepository = new MongoDeleteCompanyRepository();
         const deleteCompanyController: DeleteCompanyController = new DeleteCompanyController(mongoDeleteCompanyRepository);
 
-        const { statusCode, body }: HttpResponse<ObjectId> = await deleteCompanyController.handle({ params: { id }, body: request.body })
+        const { statusCode, body }: HttpResponse<string> = await deleteCompanyController.handle({ params: { id }, body: request.body })
 
         return response.status(statusCode).send(body);
     });
@@ -124,7 +123,7 @@ const main = async () => {
         const mongoPostUserCompanyRepository: MongoPostUserCompanyRepository = new MongoPostUserCompanyRepository();
         const postCompaniesController: PostUserCompanyController = new PostUserCompanyController(mongoPostUserCompanyRepository);
 
-        const { statusCode }: HttpResponse<ICompanyResponse> = await postCompaniesController.handle({ params: { id }, body: request.body });
+        const { statusCode }: HttpResponse<void> = await postCompaniesController.handle({ params: { id }, body: request.body });
 
         return response.status(statusCode).send();
     });
@@ -169,7 +168,7 @@ const main = async () => {
 
         const postUnitController: PostUnitController = new PostUnitController(mongoGetCompanyRepository, mongoPostUnitRepository);
 
-        const { statusCode }: HttpResponse<IUnitResponse> = await postUnitController.handle({ body: request.body });
+        const { statusCode }: HttpResponse<void> = await postUnitController.handle({ body: request.body });
 
         return response.status(statusCode).send();
     });
@@ -191,7 +190,7 @@ const main = async () => {
         const mongoDeleteUnitRepository: MongoDeleteUnitRepository = new MongoDeleteUnitRepository();
         const deleteUnitController: DeleteUnitController = new DeleteUnitController(mongoDeleteUnitRepository);
 
-        const { statusCode, body }: HttpResponse<ObjectId> = await deleteUnitController.handle({ params: { id }, body: request.body })
+        const { statusCode, body }: HttpResponse<string> = await deleteUnitController.handle({ params: { id }, body: request.body })
 
         return response.status(statusCode).send(body);
     });
@@ -216,7 +215,7 @@ const main = async () => {
 
         const postAssetsUnitsController: PostAssetUnitController = new PostAssetUnitController(mongoGetUnitRepository, mongoPostAssetUnitRepository);
 
-        const { statusCode }: HttpResponse<IUnitResponse> = await postAssetsUnitsController.handle({ params: { id }, body: request.body });
+        const { statusCode }: HttpResponse<void> = await postAssetsUnitsController.handle({ params: { id }, body: request.body });
 
         return response.status(statusCode).send();
     });

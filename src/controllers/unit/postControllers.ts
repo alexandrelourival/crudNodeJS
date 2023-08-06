@@ -1,22 +1,18 @@
-import { IPostAssetUnitController, IPostAssetUnitRepository, IPostUnitController, IPostUnitRepository } from './postProtocols';
+import { IPostAssetUnitRepository, IPostUnitRepository } from './postProtocols';
 import { IAssetRequest } from '../../models/asset';
 import { IUnitRequest } from '../../models/unit';
-import { HttpRequest } from '../protocols'
+import { HttpRequest, HttpResponse, IController } from '../protocols'
 import { IGetCompanyRepository } from '../company/getProtocols';
 import { IGetUnitRepository } from './getProtocols';
 
-export class PostUnitController implements IPostUnitController {
+export class PostUnitController implements IController {
 
     constructor(private readonly getCompanyRepository: IGetCompanyRepository, private readonly postUnitRepository: IPostUnitRepository) { }
 
-    async handle(httpRequest: HttpRequest<IUnitRequest>) {
+    async handle(httpRequest: HttpRequest<IUnitRequest>): Promise<HttpResponse<void>> {
         try {
 
             const companyResult = await this.getCompanyRepository.getCompany(httpRequest.body!.idCompany);
-
-            if (!companyResult) {
-                throw new Error('Company id not exist');
-            }
 
             await this.postUnitRepository.postUnit(companyResult, httpRequest.body!);
 
@@ -33,18 +29,14 @@ export class PostUnitController implements IPostUnitController {
 
 }
 
-export class PostAssetUnitController implements IPostAssetUnitController {
+export class PostAssetUnitController implements IController {
 
     constructor(private readonly getUnitRepository: IGetUnitRepository, private readonly postAssetUnitRepository: IPostAssetUnitRepository) { }
 
-    async handle(httpRequest: HttpRequest<IAssetRequest>) {
+    async handle(httpRequest: HttpRequest<IAssetRequest>): Promise<HttpResponse<void>> {
         try {
 
             const unit = await this.getUnitRepository.getUnit(httpRequest.params.id);
-
-            if (!unit) {
-                throw new Error('Unit id not exist.');
-            }
 
             await this.postAssetUnitRepository.postAsset(unit, httpRequest.body!);
 

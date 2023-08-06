@@ -1,22 +1,19 @@
-import { IPostUserCompanyController, IPostUserCompanyRepository, IPostCompanyController, IPostCompanyRepository } from './postProtocols';
+import { IPostUserCompanyRepository, IPostCompanyRepository } from './postProtocols';
 import { IUser } from '../../models/user';
-import { ICompanyRequest, ICompanyResponse } from '../../models/company';
-import { HttpRequest } from '../protocols'
-import { mapAssets } from '../../utils/functions';
+import { ICompanyRequest } from '../../models/company';
+import { HttpRequest, HttpResponse, IController } from '../protocols';
 
-export class PostCompanyController implements IPostCompanyController {
+export class PostCompanyController implements IController {
 
     constructor(private readonly postCompanyRepository: IPostCompanyRepository) { }
 
-    async handle(httpRequest: HttpRequest<ICompanyRequest>) {
+    async handle(httpRequest: HttpRequest<ICompanyRequest>): Promise<HttpResponse<void>> {
         try {
-            const company = await this.postCompanyRepository.postCompany(httpRequest.body!);
 
-            const companyResult: ICompanyResponse = { ...company, units: (company.units ? company.units.map(({ assets, ...restAssets }) => ({ ...restAssets, assets: mapAssets(assets!) })) : undefined) };
+            await this.postCompanyRepository.postCompany(httpRequest.body!);
 
             return {
-                statusCode: 201,
-                body: companyResult
+                statusCode: 201
             }
         } catch (error) {
             return {
@@ -28,11 +25,11 @@ export class PostCompanyController implements IPostCompanyController {
 
 }
 
-export class PostUserCompanyController implements IPostUserCompanyController {
+export class PostUserCompanyController implements IController {
 
     constructor(private readonly postUserCompanyRepository: IPostUserCompanyRepository) { }
 
-    async handle(httpRequest: HttpRequest<IUser>) {
+    async handle(httpRequest: HttpRequest<IUser>): Promise<HttpResponse<void>> {
         try {
             await this.postUserCompanyRepository.postUser(httpRequest.params.id, httpRequest.body!);
 

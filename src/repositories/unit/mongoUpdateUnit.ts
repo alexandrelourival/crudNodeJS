@@ -6,7 +6,7 @@ import { ICompanyRequest } from '@/models/company';
 
 
 export class MongoUpdateUnitRepository implements IUpdateUnitRepository {
-    async updateUnit(id: string, params: UpdateUnitParams): Promise<IUnitRequest | null> {
+    async updateUnit(id: string, params: UpdateUnitParams): Promise<IUnitRequest> {
 
         const unitBefore = await MongoClient.db.collection<IUnitRequest>('units').findOne({ _id: new ObjectId(id) })
 
