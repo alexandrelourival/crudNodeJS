@@ -52,7 +52,7 @@ const main = async () => {
         response.status(200).send(body);
     });
 
-    app.get('/company/:id', async (request, response) => {
+    app.get('/companies/:id', async (request, response) => {
 
         const id = request.params.id;
 
@@ -83,7 +83,7 @@ const main = async () => {
         return response.status(statusCode).send(body);
     });
 
-    app.patch('/company/:id', async (request, response) => {
+    app.patch('/companies/:id', async (request, response) => {
         const id = request.params.id;
 
         const mongoUpdateCompanyRepository: MongoUpdateCompanyRepository = new MongoUpdateCompanyRepository();
@@ -94,7 +94,7 @@ const main = async () => {
         return response.status(statusCode).send(body);
     });
 
-    app.delete('/company/:id', async (request, response) => {
+    app.delete('/companies/:id', async (request, response) => {
         const id = request.params.id;
 
         const mongoDeleteCompanyRepository: MongoDeleteCompanyRepository = new MongoDeleteCompanyRepository();
@@ -117,7 +117,7 @@ const main = async () => {
         return response.status(statusCode).send(body);
     });
 
-    app.post('/user/:id', async (request, response) => {
+    app.post('/users/:id', async (request, response) => {
         const id = request.params.id;
 
         const mongoPostUserCompanyRepository: MongoPostUserCompanyRepository = new MongoPostUserCompanyRepository();
