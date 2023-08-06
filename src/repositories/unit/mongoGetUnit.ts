@@ -1,5 +1,5 @@
 import { IUnitRequest } from "../../models/unit";
-import { IGetUnitRepository, IGetUnitsRepository } from "../../controllers/unit/getProtocols";
+import { IGetUnitRepository, IGetUnitsRepository } from "../../controllers/unit/get/protocols";
 import { MongoClient } from '../../database/mongo';
 import { ObjectId } from "mongodb";
 

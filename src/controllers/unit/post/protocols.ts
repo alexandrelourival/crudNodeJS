@@ -1,6 +1,6 @@
 import { IAssetRequest } from '@/models/asset';
-import { IUnitRequest } from '../../models/unit';
-import { ICompanyRequest } from '../../models/company';
+import { IUnitRequest } from '../../../models/unit';
+import { ICompanyRequest } from '../../../models/company';
 
 export interface IPostUnitRepository {
     postUnit(company: ICompanyRequest, unit: IUnitRequest): Promise<void>;

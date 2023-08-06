@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { IDeleteCompanyRepository } from '../../controllers/company/deleteProtocols';
+import { IDeleteCompanyRepository } from '../../controllers/company/delete/protocols';
 import { MongoClient } from '../../database/mongo';
 import { ICompanyRequest } from '../../models/company';
 import { IUnitRequest } from '../../models/unit';

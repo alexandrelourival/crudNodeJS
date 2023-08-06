@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { IPostAssetUnitRepository, IPostUnitRepository } from "../../controllers/unit/postProtocols";
+import { IPostAssetUnitRepository, IPostUnitRepository } from "../../controllers/unit/post/protocols";
 import { MongoClient } from "../../database/mongo";
 import { IAssetRequest } from "../../models/asset";
 import { ICompanyRequest } from "../../models/company";

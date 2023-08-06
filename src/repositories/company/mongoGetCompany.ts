@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { IGetCompaniesRepository, IGetUsersCompanyRepository, IGetCompanyRepository } from '../../controllers/company/getProtocols';
+import { IGetCompaniesRepository, IGetUsersCompanyRepository, IGetCompanyRepository } from '../../controllers/company/get/protocols';
 import { MongoClient } from '../../database/mongo';
 import { ICompanyRequest } from '../../models/company';
 import { IUser } from '../../models/user';
@@ -8,6 +8,7 @@ import { IUser } from '../../models/user';
 export class MongoGetCompaniesRepository implements IGetCompaniesRepository {
     async getCompanies(): Promise<ICompanyRequest[]> {
         const companies = await MongoClient.db.collection<ICompanyRequest>('companies').find({}).toArray();
+
         return companies;
     }
 }

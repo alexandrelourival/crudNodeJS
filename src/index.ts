@@ -10,11 +10,11 @@ import { IUser } from './models/user';
 import { IUnitResponse } from './models/unit';
 import { IAssetResponse } from './models/asset';
 
-import { GetCompaniesController, GetCompanyController, GetUsersCompanyController } from './controllers/company/getControllers';
-import { PostCompanyController, PostUserCompanyController } from './controllers/company/postControllers';
-import { GetUnitsController, GetUnitController, GetAssetsUnitController } from './controllers/unit/getControllers';
-import { PostUnitController, PostAssetUnitController } from './controllers/unit/postControllers';
-import { UpdateCompanyController } from './controllers/company/updateControllers';
+import { GetCompaniesController, GetCompanyController, GetUsersCompanyController } from './controllers/company/get/controllers';
+import { PostCompanyController, PostUserCompanyController } from './controllers/company/post/controllers';
+import { GetUnitsController, GetUnitController, GetAssetsUnitController } from './controllers/unit/get/controllers';
+import { PostUnitController, PostAssetUnitController } from './controllers/unit/post/controllers';
+import { UpdateCompanyController } from './controllers/company/update/controllers';
 
 import { MongoGetCompaniesRepository, MongoGetCompanyRepository, MongoGetUsersCompanyRepository } from './repositories/company/mongoGetCompany';
 import { MongoPostCompanyRepository, MongoPostUserCompanyRepository } from './repositories/company/mongoPostCompany';
@@ -22,11 +22,11 @@ import { MongoGetUnitsRepository, MongoGetUnitRepository } from './repositories/
 import { MongoPostUnitRepository, MongoPostAssetUnitRepository } from './repositories/unit/mongoPostUnit';
 import { MongoUpdateCompanyRepository } from './repositories/company/mongoUpdateCompany';
 import { MongoDeleteCompanyRepository } from './repositories/company/mongoDeleteCompany';
-import { DeleteCompanyController } from './controllers/company/deleteController';
+import { DeleteCompanyController } from './controllers/company/delete/controller';
 import { MongoDeleteUnitRepository } from './repositories/unit/mongoDeleteUnit';
-import { DeleteUnitController } from './controllers/unit/deleteController';
+import { DeleteUnitController } from './controllers/unit/delete/controller';
 import { MongoUpdateUnitRepository } from './repositories/unit/mongoUpdateUnit';
-import { UpdateUnitController } from './controllers/unit/updateControllers';
+import { UpdateUnitController } from './controllers/unit/update/controllers';
 
 
 const main = async () => {
@@ -59,7 +59,7 @@ const main = async () => {
         const mongoGetCompanyRepository: MongoGetCompanyRepository = new MongoGetCompanyRepository();
         const getCompanyController: GetCompanyController = new GetCompanyController(mongoGetCompanyRepository);
 
-        const { statusCode, body }: HttpResponse<ICompanyResponse> = await getCompanyController.handle({ params: { id } });
+        const { statusCode, body }: HttpResponse<ICompanyResponse | string> = await getCompanyController.handle({ params: { id } });
 
         return response.status(statusCode).send(body);
     });
@@ -68,7 +68,7 @@ const main = async () => {
         const mongoGetCompaniesRepository: MongoGetCompaniesRepository = new MongoGetCompaniesRepository();
         const getCompaniesController: GetCompaniesController = new GetCompaniesController(mongoGetCompaniesRepository);
 
-        const { statusCode, body }: HttpResponse<ICompanyResponse[]> = await getCompaniesController.handle();
+        const { statusCode, body }: HttpResponse<ICompanyResponse[] | string> = await getCompaniesController.handle();
 
         return response.status(statusCode).send(body);
     });
@@ -78,9 +78,9 @@ const main = async () => {
         const mongoPostCompanyRepository: MongoPostCompanyRepository = new MongoPostCompanyRepository();
         const postCompanyController: PostCompanyController = new PostCompanyController(mongoPostCompanyRepository);
 
-        const { statusCode }: HttpResponse<void> = await postCompanyController.handle({ body: request.body });
+        const { statusCode, body }: HttpResponse<string> = await postCompanyController.handle({ body: request.body });
 
-        return response.status(statusCode).send();
+        return response.status(statusCode).send(body);
     });
 
     app.patch('/company/:id', async (request, response) => {
@@ -89,7 +89,7 @@ const main = async () => {
         const mongoUpdateCompanyRepository: MongoUpdateCompanyRepository = new MongoUpdateCompanyRepository();
         const updateCompanyController: UpdateCompanyController = new UpdateCompanyController(mongoUpdateCompanyRepository);
 
-        const { statusCode, body }: HttpResponse<ICompanyResponse> = await updateCompanyController.handle({ params: { id }, body: request.body })
+        const { statusCode, body }: HttpResponse<ICompanyResponse | string> = await updateCompanyController.handle({ params: { id }, body: request.body })
 
         return response.status(statusCode).send(body);
     });
@@ -111,7 +111,7 @@ const main = async () => {
         const mongoGetUsersCompanyRepository: MongoGetUsersCompanyRepository = new MongoGetUsersCompanyRepository();
         const getUsersCompanyController: GetUsersCompanyController = new GetUsersCompanyController(mongoGetUsersCompanyRepository);
 
-        const { statusCode, body }: HttpResponse<IUser[]> = await getUsersCompanyController.handle({ params: { id } });
+        const { statusCode, body }: HttpResponse<IUser[] | string> = await getUsersCompanyController.handle({ params: { id } });
 
 
         return response.status(statusCode).send(body);
@@ -123,9 +123,9 @@ const main = async () => {
         const mongoPostUserCompanyRepository: MongoPostUserCompanyRepository = new MongoPostUserCompanyRepository();
         const postCompaniesController: PostUserCompanyController = new PostUserCompanyController(mongoPostUserCompanyRepository);
 
-        const { statusCode }: HttpResponse<void> = await postCompaniesController.handle({ params: { id }, body: request.body });
+        const { statusCode, body }: HttpResponse<string> = await postCompaniesController.handle({ params: { id }, body: request.body });
 
-        return response.status(statusCode).send();
+        return response.status(statusCode).send(body);
     });
 
     app.get('/unit/:id', async (request, response) => {
@@ -135,7 +135,7 @@ const main = async () => {
         const mongoGetUnitRepository: MongoGetUnitRepository = new MongoGetUnitRepository();
         const getUnitController: GetUnitController = new GetUnitController(mongoGetUnitRepository);
 
-        const { statusCode, body }: HttpResponse<IUnitResponse> = await getUnitController.handle({ params: { id } });
+        const { statusCode, body }: HttpResponse<IUnitResponse | string> = await getUnitController.handle({ params: { id } });
 
         return response.status(statusCode).send(body);
     });
@@ -144,7 +144,7 @@ const main = async () => {
         const mongoGetUnitsRepository: MongoGetUnitsRepository = new MongoGetUnitsRepository();
         const getUnitsController: GetUnitsController = new GetUnitsController(mongoGetUnitsRepository);
 
-        const { statusCode, body }: HttpResponse<IUnitResponse[]> = await getUnitsController.handle({});
+        const { statusCode, body }: HttpResponse<IUnitResponse[] | string> = await getUnitsController.handle({});
 
         return response.status(statusCode).send(body);
     });
@@ -156,7 +156,7 @@ const main = async () => {
         const mongoGetUnitsRepository: MongoGetUnitsRepository = new MongoGetUnitsRepository();
         const getUnitsController: GetUnitsController = new GetUnitsController(mongoGetUnitsRepository);
 
-        const { statusCode, body }: HttpResponse<IUnitResponse[]> = await getUnitsController.handle({ params: { id } });
+        const { statusCode, body }: HttpResponse<IUnitResponse[] | string> = await getUnitsController.handle({ params: { id } });
 
         return response.status(statusCode).send(body);
     });
@@ -168,9 +168,9 @@ const main = async () => {
 
         const postUnitController: PostUnitController = new PostUnitController(mongoGetCompanyRepository, mongoPostUnitRepository);
 
-        const { statusCode }: HttpResponse<void> = await postUnitController.handle({ body: request.body });
+        const { statusCode, body }: HttpResponse<string> = await postUnitController.handle({ body: request.body });
 
-        return response.status(statusCode).send();
+        return response.status(statusCode).send(body);
     });
 
     app.patch('/unit/:id', async (request, response) => {
@@ -179,7 +179,7 @@ const main = async () => {
         const mongoUpdateUnitRepository: MongoUpdateUnitRepository = new MongoUpdateUnitRepository();
         const updateUnitController: UpdateUnitController = new UpdateUnitController(mongoUpdateUnitRepository);
 
-        const { statusCode, body }: HttpResponse<IUnitResponse> = await updateUnitController.handle({ params: { id }, body: request.body })
+        const { statusCode, body }: HttpResponse<IUnitResponse | string> = await updateUnitController.handle({ params: { id }, body: request.body })
 
         return response.status(statusCode).send(body);
     });
@@ -201,7 +201,7 @@ const main = async () => {
         const mongoGetUnitRepository: MongoGetUnitRepository = new MongoGetUnitRepository();
         const getAssetsUnitController: GetAssetsUnitController = new GetAssetsUnitController(mongoGetUnitRepository);
 
-        const { statusCode, body }: HttpResponse<IAssetResponse[]> = await getAssetsUnitController.handle({ params: { id } });
+        const { statusCode, body }: HttpResponse<IAssetResponse[] | string> = await getAssetsUnitController.handle({ params: { id } });
 
 
         return response.status(statusCode).send(body);
@@ -215,9 +215,9 @@ const main = async () => {
 
         const postAssetsUnitsController: PostAssetUnitController = new PostAssetUnitController(mongoGetUnitRepository, mongoPostAssetUnitRepository);
 
-        const { statusCode }: HttpResponse<void> = await postAssetsUnitsController.handle({ params: { id }, body: request.body });
+        const { statusCode, body }: HttpResponse<string> = await postAssetsUnitsController.handle({ params: { id }, body: request.body });
 
-        return response.status(statusCode).send();
+        return response.status(statusCode).send(body);
     });
 
 

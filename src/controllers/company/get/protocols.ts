@@ -1,5 +1,5 @@
 import { IUser } from '@/models/user';
-import { ICompanyRequest } from '../../models/company';
+import { ICompanyRequest } from '../../../models/company';
 
 export interface IGetCompaniesRepository {
     getCompanies(): Promise<ICompanyRequest[]>;

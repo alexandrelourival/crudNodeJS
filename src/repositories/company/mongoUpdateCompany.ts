@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { IUpdateCompanyRepository, UpdateCompanyParams } from '../../controllers/company/updateProtocols';
+import { IUpdateCompanyRepository, UpdateCompanyParams } from '../../controllers/company/update/protocols';
 import { MongoClient } from '../../database/mongo';
 import { ICompanyRequest } from '../../models/company';
 

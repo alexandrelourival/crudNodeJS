@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { IUpdateUnitRepository, UpdateUnitParams } from '../../controllers/unit/updateProtocols';
+import { IUpdateUnitRepository, UpdateUnitParams } from '../../controllers/unit/update/protocols';
 import { MongoClient } from '../../database/mongo';
 import { IUnitRequest } from '../../models/unit';
 import { ICompanyRequest } from '@/models/company';
@@ -18,13 +18,11 @@ export class MongoUpdateUnitRepository implements IUpdateUnitRepository {
             throw new Error('User not updated');
         }
 
+        const unitsCompany = await MongoClient.db.collection<IUnitRequest>('units').find({ idCompany: unit.idCompany }).toArray();
+
         const company = await MongoClient.db.collection<ICompanyRequest>('companies').findOne({ _id: new ObjectId(unit.idCompany) });
 
-        company!.units!.forEach((_unitForEach, index) => {
-            if (company!._id.toHexString() == unit.idCompany) {
-                company!.units![index] = unit;
-            }
-        });
+        company!.units! = unitsCompany!;
 
         const companyUpdate = await MongoClient.db.collection<ICompanyRequest>('companies').updateOne({ _id: new ObjectId(unit.idCompany) }, { $set: { ...company } });
         if (!companyUpdate) {

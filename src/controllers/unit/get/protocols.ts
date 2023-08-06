@@ -1,4 +1,4 @@
-import { IUnitRequest } from '../../models/unit';
+import { IUnitRequest } from '../../../models/unit';
 
 export interface IGetUnitsRepository {
     getUnits(): Promise<IUnitRequest[]>;

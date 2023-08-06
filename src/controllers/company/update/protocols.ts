@@ -1,4 +1,4 @@
-import { ICompanyRequest } from '../../models/company';
+import { ICompanyRequest } from '../../../models/company';
 
 export interface UpdateCompanyParams {
     name?: string,
