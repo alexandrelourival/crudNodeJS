@@ -1,13 +1,13 @@
-import { IUser } from "@/models/user";
-import { ICompany } from "../../models/company";
-import { HttpRequest, HttpResponse } from "../protocols";
+import { IUser } from '@/models/user';
+import { ICompanyRequest, ICompanyResponse } from '../../models/company';
+import { HttpRequest, HttpResponse } from '../protocols';
 
 export interface IPostCompanyController {
-    handle(httpRequest: HttpRequest<ICompany>): Promise<HttpResponse<ICompany>>;
+    handle(httpRequest: HttpRequest<ICompanyRequest>): Promise<HttpResponse<ICompanyResponse>>;
 }
 
 export interface IPostCompanyRepository {
-    postCompany(body: ICompany): Promise<ICompany>;
+    postCompany(body: ICompanyRequest): Promise<ICompanyRequest>;
 }
 
 export interface IPostUserCompanyController {

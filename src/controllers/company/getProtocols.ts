@@ -1,21 +1,21 @@
-import { IUser } from "@/models/user";
-import { ICompany } from "../../models/company";
-import { HttpResponse } from "../protocols";
+import { IUser } from '@/models/user';
+import { ICompanyRequest, ICompanyResponse } from '../../models/company';
+import { HttpResponse } from '../protocols';
 
 export interface IGetCompaniesController {
-    handle(): Promise<HttpResponse<ICompany[]>>;
+    handle(): Promise<HttpResponse<ICompanyResponse[]>>;
 }
 
 export interface IGetCompaniesRepository {
-    getCompanies(): Promise<ICompany[]>;
+    getCompanies(): Promise<ICompanyRequest[]>;
 }
 
 export interface IGetCompanyController {
-    handle(id: string): Promise<HttpResponse<ICompany>>;
+    handle(id: string): Promise<HttpResponse<ICompanyResponse>>;
 }
 
 export interface IGetCompanyRepository {
-    getCompany(id: string): Promise<ICompany | null>;
+    getCompany(id: string): Promise<ICompanyRequest | null>;
 }
 
 export interface IGetUsersCompanyController {

@@ -1,6 +1,8 @@
 import { IGetCompaniesController, IGetCompaniesRepository, IGetUsersCompanyController, IGetUsersCompanyRepository, IGetCompanyController, IGetCompanyRepository } from './getProtocols'
-import { ICompany } from '../../models/company';
+import { ICompanyRequest, ICompanyResponse } from '../../models/company';
 import { IUser } from '../../models/user';
+import { IUnitResponse } from '../../models/unit';
+import { mapAssets } from '../../utils/functions';
 
 export class GetCompaniesController implements IGetCompaniesController {
 
@@ -8,11 +10,26 @@ export class GetCompaniesController implements IGetCompaniesController {
 
     async handle() {
         try {
-            const companies: ICompany[] = await this.getCompaniesRepository.getCompanies();
+            const companies: ICompanyRequest[] = await this.getCompaniesRepository.getCompanies();
+
+            const companiesResult: ICompanyResponse[] = companies.map(({ units, ...rest }) => {
+                let unitsResult: IUnitResponse[] | undefined = undefined;
+                if (units) {
+                    unitsResult = units.map(({ assets, ...restAssets }) => ({ ...restAssets, assets: mapAssets(assets) }));
+                }
+                return ({ ...rest, units: unitsResult });
+            });
+
+            if (companiesResult.length > 0) {
+                return {
+                    statusCode: 200,
+                    body: companiesResult
+                }
+            }
 
             return {
-                statusCode: 200,
-                body: companies
+                statusCode: 404,
+                body: 'Info: Companies not found.'
             }
         } catch (error) {
             return {
@@ -30,12 +47,15 @@ export class GetCompanyController implements IGetCompanyController {
 
     async handle(id: string) {
         try {
-            const company = await this.getCompanyRepository.getCompany(id);
+            const company: ICompanyRequest | null = await this.getCompanyRepository.getCompany(id);
 
             if (company != null) {
+
+                const companyResult: ICompanyResponse = { ...company, units: (company.units ? company.units.map(({ assets, ...restAssets }) => ({ ...restAssets, assets: mapAssets(assets!) })) : undefined) };
+
                 return {
                     statusCode: 200,
-                    body: company
+                    body: companyResult
                 }
             }
 
@@ -61,9 +81,16 @@ export class GetUsersCompanyController implements IGetUsersCompanyController {
         try {
             const users: IUser[] = await this.getUsersCompanyRepository.getUsers(id);
 
+            if (users.length > 0) {
+                return {
+                    statusCode: 200,
+                    body: users
+                }
+            }
+
             return {
-                statusCode: 200,
-                body: users
+                statusCode: 404,
+                body: "Info: This Company don't have users."
             }
         } catch (error) {
             return {

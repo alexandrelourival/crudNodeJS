@@ -1,15 +1,18 @@
 import { IPostUserCompanyController, IPostUserCompanyRepository, IPostCompanyController, IPostCompanyRepository } from './postProtocols';
 import { IUser } from '../../models/user';
-import { ICompany } from '@/models/company';
+import { ICompanyRequest, ICompanyResponse } from '../../models/company';
 import { HttpRequest } from '../protocols'
+import { mapAssets } from '../../utils/functions';
 
 export class PostCompanyController implements IPostCompanyController {
 
     constructor(private readonly postCompanyRepository: IPostCompanyRepository) { }
 
-    async handle(httpRequest: HttpRequest<ICompany>) {
+    async handle(httpRequest: HttpRequest<ICompanyRequest>) {
         try {
-            const companyResult = await this.postCompanyRepository.postCompany(httpRequest.body!);
+            const company = await this.postCompanyRepository.postCompany(httpRequest.body!);
+
+            const companyResult: ICompanyResponse = { ...company, units: (company.units ? company.units.map(({ assets, ...restAssets }) => ({ ...restAssets, assets: mapAssets(assets!) })) : undefined) };
 
             return {
                 statusCode: 201,
