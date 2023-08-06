@@ -1,4 +1,4 @@
-import { HttpResponse, HttpStatuscode } from "./protocols";
+import { HttpResponse, HttpStatuscode } from './protocols';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const responseOk = <T>(body: any): HttpResponse<T> => { return { statusCode: HttpStatuscode.OK, body } };

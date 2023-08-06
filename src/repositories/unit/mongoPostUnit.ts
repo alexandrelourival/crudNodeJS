@@ -1,9 +1,9 @@
-import { ObjectId } from "mongodb";
-import { IPostAssetUnitRepository, IPostUnitRepository } from "../../controllers/unit/post/protocols";
-import { MongoClient } from "../../database/mongo";
-import { IAssetRequest } from "../../models/asset";
-import { ICompanyRequest } from "../../models/company";
-import { IUnitRequest } from "../../models/unit";
+import { ObjectId } from 'mongodb';
+import { IPostAssetUnitRepository, IPostUnitRepository } from '../../controllers/unit/post/protocols';
+import { MongoClient } from '../../database/mongo';
+import { IAssetRequest } from '../../models/asset';
+import { ICompanyRequest } from '../../models/company';
+import { IUnitRequest } from '../../models/unit';
 
 export class MongoPostUnitRepository implements IPostUnitRepository {
     async postUnit(company: ICompanyRequest, unit: IUnitRequest): Promise<void> {

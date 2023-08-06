@@ -1,4 +1,4 @@
-import { IUser } from '@/models/user';
+import { IUser } from '../../../models/user';
 import { ICompanyRequest } from '../../../models/company';
 
 export interface IPostCompanyRepository {
