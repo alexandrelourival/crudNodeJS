@@ -59,7 +59,7 @@ export class GetAssetsUnitController implements IController {
             const unit: IUnitRequest = await this.getUnitRepository.getUnit(httpRequest.params.id);
 
             if (!unit.assets) {
-                return responseNotFound("Info: This Unit don't have assets.");
+                return responseNotFound("This Unit don't have assets.");
             }
 
             const assetsResult: IAssetResponse[] = unit.assets.map(({ status, health, ...rest }) => ({ ...rest, status: statusEnum[status], health: `${health}%` }));
