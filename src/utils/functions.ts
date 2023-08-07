@@ -1,4 +1,4 @@
-import { IAssetRequest, IAssetResponse } from '@/models/asset';
+import { IAssetRequest, IAssetResponse } from './../models/asset';
 import { statusEnum } from './enum';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
