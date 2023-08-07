@@ -22,7 +22,7 @@
   - /companies -> Create a company.
   - /users/:id -> Create a user to this company id.
   - /units -> Create a unit to the company id passed in body.
-  - /assets/:id -> Create a asset to this company id
+  - /assets/:id -> Create a asset to this unit id
 - PATCH:
   - /companies/:id -> Update company of this id (Just allowed update name and description).
   - /unit/:id -> Update unit of this id (Just allowed update name).
